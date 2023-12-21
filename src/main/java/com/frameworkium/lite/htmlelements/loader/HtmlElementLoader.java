@@ -2,7 +2,6 @@ package com.frameworkium.lite.htmlelements.loader;
 
 import com.frameworkium.lite.htmlelements.element.HtmlElement;
 import com.frameworkium.lite.htmlelements.element.TypifiedElement;
-import com.frameworkium.lite.htmlelements.exceptions.HtmlElementsException;
 import com.frameworkium.lite.htmlelements.loader.decorator.HtmlElementDecorator;
 import com.frameworkium.lite.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 import com.frameworkium.lite.htmlelements.loader.decorator.proxyhandlers.WebElementNamedProxyHandler;
@@ -62,9 +61,11 @@ public class HtmlElementLoader {
             // Recursively initialize elements of the block
             populatePageObject(instance, elementToWrap);
             return instance;
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
-                | InvocationTargetException e) {
-            throw new HtmlElementsException(e);
+        } catch (NoSuchMethodException
+                 | InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -82,10 +83,10 @@ public class HtmlElementLoader {
         try {
             return newInstance(elementClass, elementToWrap);
         } catch (NoSuchMethodException
-                | InstantiationException
-                | IllegalAccessException
-                | InvocationTargetException e) {
-            throw new HtmlElementsException(e);
+                 | InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,8 +1,9 @@
 package com.frameworkium.lite.htmlelements.loader.decorator;
 
-import com.frameworkium.lite.htmlelements.exceptions.HtmlElementsException;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.*;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.Annotations;
 
 import java.lang.reflect.Field;
@@ -84,7 +85,7 @@ public class HtmlElementFieldAnnotationsHandler extends Annotations {
             listParameterClass = listParameterClass.getSuperclass();
         }
 
-        throw new HtmlElementsException(
+        throw new RuntimeException(
                 String.format("Cannot determine how to locate element %s", getField()));
     }
 }

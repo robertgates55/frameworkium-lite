@@ -1,7 +1,6 @@
 package com.frameworkium.lite.htmlelements.loader.decorator;
 
 import com.frameworkium.lite.htmlelements.element.HtmlElement;
-import com.frameworkium.lite.htmlelements.exceptions.HtmlElementsException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBy.FindByBuilder;
@@ -26,7 +25,7 @@ public class HtmlElementClassAnnotationsHandler<T extends HtmlElement> extends A
             clazz = clazz.getSuperclass();
         }
 
-        throw new HtmlElementsException(String.format(
+        throw new RuntimeException(String.format(
                 "Cannot determine how to locate instance of %s", elementClass));
     }
 
