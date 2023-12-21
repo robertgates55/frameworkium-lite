@@ -1,7 +1,7 @@
 # Frameworkium Lite
 
 ![CI](https://github.com/ham1/frameworkium-lite/actions/workflows/ci.yaml/badge.svg)
-[![codecov](https://codecov.io/gh/ham1/frameworkium-lite/branch/master/graph/badge.svg?token=07Bjy2ePfw)](https://codecov.io/gh/ham1/frameworkium-lite)
+[![codecov](https://codecov.io/gh/ham1/frameworkium-lite/branch/main/graph/badge.svg?token=07Bjy2ePfw)](https://codecov.io/gh/ham1/frameworkium-lite)
 
 A Framework for writing maintainable Selenium and REST API tests in Java.
 
@@ -9,7 +9,7 @@ To use this you will need the following in your `pom.xml`
 
 ```xml
   <repositories>
-    <!-- Enables us to get dependencies from github -->
+    <!-- Enables us to fetch dependencies from github -->
     <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
