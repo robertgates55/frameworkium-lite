@@ -20,7 +20,7 @@ To use this you will need the following in your `pom.xml`
     <dependency>
       <groupId>com.github.ham1</groupId>
       <artifactId>frameworkium-lite</artifactId>
-      <version>4.6.17</version>
+      <version>4.7.1</version>
     </dependency>
   </dependencies>
 ```
