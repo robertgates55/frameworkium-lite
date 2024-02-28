@@ -2,6 +2,7 @@ package com.frameworkium.lite.htmlelements.element;
 
 import com.frameworkium.lite.common.properties.Property;
 import com.frameworkium.lite.ui.UITestLifecycle;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -63,9 +64,18 @@ public class FileInput extends TypifiedElement {
     private void setLocalFileDetectorIfRequired() {
         if (Property.GRID_URL.isSpecified()) {
             var webDriver = UITestLifecycle.get().getWebDriver();
-            var wrapperAccess = (WrapsDriver) webDriver;
-            var remoteDriver = (RemoteWebDriver) wrapperAccess.getWrappedDriver();
-            remoteDriver.setFileDetector(new LocalFileDetector());
+            unwrapDriver(webDriver).setFileDetector(new LocalFileDetector());
+        }
+    }
+
+    private RemoteWebDriver unwrapDriver(WebDriver driver) {
+        if (driver instanceof RemoteWebDriver) {
+            return (RemoteWebDriver) driver;
+        } else if (driver instanceof WrapsDriver) {
+            WebDriver wrappedDriver = ((WrapsDriver) driver).getWrappedDriver();
+            return unwrapDriver(wrappedDriver);
+        } else {
+            throw new RuntimeException("Unable to unwrap driver to RemoteWebDriver.");
         }
     }
 
