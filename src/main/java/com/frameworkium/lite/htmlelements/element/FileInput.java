@@ -15,7 +15,13 @@ import java.util.stream.Collectors;
 import static com.frameworkium.lite.htmlelements.utils.HtmlElementUtils.existsInClasspath;
 import static com.frameworkium.lite.htmlelements.utils.HtmlElementUtils.getResourceFromClasspath;
 
-/** Represents web page file upload element. */
+/**
+ * Represents web page file upload element.
+ *
+ * <p>N.B. When using GridImpl, the LocalFileDetector is set to allow file uploads to work.
+ * This was previously done in this class but was moved to GridImpl
+ * as that's the only place where we can garuntee the driver is a RemoteWebDriver.
+ */
 public class FileInput extends TypifiedElement {
 
     /**
@@ -36,9 +42,6 @@ public class FileInput extends TypifiedElement {
      * @param fileName Name of a file or a resource to be uploaded.
      */
     public void setFileToUpload(final String fileName) {
-        // Set local file detector in case of remote driver usage
-        setLocalFileDetectorIfRequired();
-
         sendKeys(getFilePath(fileName));
     }
 
@@ -52,31 +55,10 @@ public class FileInput extends TypifiedElement {
      * @param fileNames a list of file Names to be uploaded.
      */
     public void setFilesToUpload(List<String> fileNames) {
-        // Set local file detector in case of remote driver usage
-        setLocalFileDetectorIfRequired();
-
         String filePaths = fileNames.stream()
                 .map(this::getFilePath)
                 .collect(Collectors.joining("\n"));
         sendKeys(filePaths);
-    }
-
-    private void setLocalFileDetectorIfRequired() {
-        if (Property.GRID_URL.isSpecified()) {
-            var webDriver = UITestLifecycle.get().getWebDriver();
-            unwrapDriver(webDriver).setFileDetector(new LocalFileDetector());
-        }
-    }
-
-    private RemoteWebDriver unwrapDriver(WebDriver driver) {
-        if (driver instanceof RemoteWebDriver) {
-            return (RemoteWebDriver) driver;
-        } else if (driver instanceof WrapsDriver) {
-            WebDriver wrappedDriver = ((WrapsDriver) driver).getWrappedDriver();
-            return unwrapDriver(wrappedDriver);
-        } else {
-            throw new RuntimeException("Unable to unwrap driver to RemoteWebDriver.");
-        }
     }
 
     /**

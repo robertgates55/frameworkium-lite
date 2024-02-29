@@ -1,8 +1,10 @@
 package com.frameworkium.lite.ui.driver.drivers;
 
 import com.frameworkium.lite.common.properties.Property;
+import com.frameworkium.lite.ui.UITestLifecycle;
 import com.frameworkium.lite.ui.driver.AbstractDriver;
 import org.openqa.selenium.*;
+import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
@@ -17,7 +19,7 @@ public class GridImpl extends AbstractDriver {
     private final Capabilities capabilities;
 
     /**
-     * Implementation of driver for the Selenium Grid .
+     * Implementation of driver for using Selenium Grid.
      */
     public GridImpl(Capabilities capabilities) {
         this.capabilities = capabilities;
@@ -39,6 +41,9 @@ public class GridImpl extends AbstractDriver {
 
     @Override
     public WebDriver getWebDriver(Capabilities capabilities) {
-        return new RemoteWebDriver(remoteURL, capabilities, REMOTE_OTEL_TRACING.getBoolean());
+        var remoteWebDriver = new RemoteWebDriver(remoteURL, capabilities, REMOTE_OTEL_TRACING.getBoolean());
+        // Set local file detector to allow file uploads to work in FileInput
+        remoteWebDriver.setFileDetector(new LocalFileDetector());
+        return remoteWebDriver;
     }
 }
