@@ -30,7 +30,11 @@ public class CaptureListener implements WebDriverListener, ITestListener {
     private final Logger logger = LogManager.getLogger(this);
 
     private static final List<String> FRAMEWORKIUM_SCRIPTS =
-            Arrays.asList(UserAgent.SCRIPT, ExtraExpectedConditions.JQUERY_AJAX_DONE_SCRIPT);
+            Arrays.asList(
+                    UserAgent.SCRIPT,
+                    ExtraExpectedConditions.JQUERY_AJAX_DONE_SCRIPT,
+                    ElementHighlighter.HIGHLIGHT_ELEMENT_SCRIPT,
+                    ElementHighlighter.UNHIGHLIGHT_ELEMENT_SCRIPT);
 
     private void takeScreenshotAndSend(Command command) {
         try {

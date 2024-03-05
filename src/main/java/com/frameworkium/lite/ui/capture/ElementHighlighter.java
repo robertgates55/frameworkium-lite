@@ -4,6 +4,9 @@ import org.openqa.selenium.*;
 
 public class ElementHighlighter {
 
+    public static final String UNHIGHLIGHT_ELEMENT_SCRIPT = "arguments[0].style.border='none'";
+    public static final String HIGHLIGHT_ELEMENT_SCRIPT = "arguments[0].style.border='3px solid red'";
+
     private final JavascriptExecutor js;
     private WebElement previousElem;
 
@@ -25,7 +28,7 @@ public class ElementHighlighter {
         previousElem = webElement; // remember the new element
         try {
             // TODO: save the previous border
-            js.executeScript("arguments[0].style.border='3px solid red'", webElement);
+            js.executeScript(HIGHLIGHT_ELEMENT_SCRIPT, webElement);
         } catch (StaleElementReferenceException ignored) {
             // something went wrong, but no need to crash for highlighting
         }
@@ -38,7 +41,7 @@ public class ElementHighlighter {
 
         try {
             // unhighlight the previously highlighted element
-            js.executeScript("arguments[0].style.border='none'", previousElem);
+            js.executeScript(UNHIGHLIGHT_ELEMENT_SCRIPT, previousElem);
         } catch (StaleElementReferenceException ignored) {
             // the page was reloaded/changed, the same element isn't there
         }
