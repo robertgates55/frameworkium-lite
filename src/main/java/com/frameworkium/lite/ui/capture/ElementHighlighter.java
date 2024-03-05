@@ -5,7 +5,8 @@ import org.openqa.selenium.*;
 public class ElementHighlighter {
 
     public static final String UNHIGHLIGHT_ELEMENT_SCRIPT = "arguments[0].style.border='none'";
-    public static final String HIGHLIGHT_ELEMENT_SCRIPT = "arguments[0].style.border='3px solid red'";
+    public static final String HIGHLIGHT_ELEMENT_SCRIPT =
+            "arguments[0].style.border='3px solid red'";
 
     private final JavascriptExecutor js;
     private WebElement previousElem;
