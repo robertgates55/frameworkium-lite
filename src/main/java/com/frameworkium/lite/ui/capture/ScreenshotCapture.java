@@ -24,9 +24,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Takes and sends screenshots to "Capture" asynchronously. */
 public class ScreenshotCapture {
@@ -47,9 +51,14 @@ public class ScreenshotCapture {
         }
     }
 
-    /** Shared Executor for async sending of screenshot messages to capture. */
-    private static final ExecutorService sendScreenshotExecutor =
-            Executors.newFixedThreadPool(CAPTURE_THREADS.getIntWithDefault(1));
+    /** Executor pool for async sending of screenshot messages to capture. */
+    private static final List<ExecutorService> sendScreenshotExecutors = new ArrayList<>();
+
+    static {
+        for (int i = 0; i < CAPTURE_THREADS.getIntWithDefault(3); i++) {
+            sendScreenshotExecutors.add(Executors.newSingleThreadExecutor());
+        }
+    }
 
     private static final ExecutorService compressScreenshotExecutor =
             Executors.newFixedThreadPool(THREADS.getIntWithDefault(4));
@@ -135,8 +144,10 @@ public class ScreenshotCapture {
         Future<String> future =
                 compressScreenshotExecutor.submit(() -> getBase64Screenshot(screenshotFile));
 
-        // Send it to capture on a separate single thread (sequentially)
-        sendScreenshotExecutor.execute(() -> {
+        // Send it to capture on a separate single thread
+        // Hashing the execution ID so ensure they are sent sequentially for each execution
+        int index = Math.abs(executionID.hashCode()) % sendScreenshotExecutors.size();
+        sendScreenshotExecutors.get(index).execute(() -> {
             try {
                 var createScreenshotMessage = new CreateScreenshot(
                         executionID, command, currentURL, errorMessage, future.get());
@@ -211,24 +222,39 @@ public class ScreenshotCapture {
      */
     public static void processRemainingBacklog() {
 
-        sendScreenshotExecutor.shutdown();
+        sendScreenshotExecutors.forEach(ExecutorService::shutdown);
 
         if (!isRequired()) {
             return;
         }
 
         logger.info("Processing remaining Screenshot Capture backlog...");
-        boolean timeout;
-        int remaining;
+        var timeout = new AtomicBoolean(false);
+        var totalRemainingJobs = new AtomicInteger(0);
+        var terminationFutures = sendScreenshotExecutors.stream()
+                .map(executor -> CompletableFuture.runAsync(() -> {
+                    try {
+                        if (executor.awaitTermination(2, TimeUnit.MINUTES)) {
+                            timeout.set(true);
+                        }
+                        totalRemainingJobs.addAndGet(executor.shutdownNow().size());
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException(e);
+                    }
+                }))
+                .toList();
+
+        // Wait for all termination futures to complete
         try {
-            timeout = !sendScreenshotExecutor.awaitTermination(2, TimeUnit.MINUTES);
-            remaining = sendScreenshotExecutor.shutdownNow().size();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
+            CompletableFuture.allOf(terminationFutures.toArray(new CompletableFuture[0]))
+                    .get(3, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            logger.error("CompletableFuture timed out.");
+            timeout.set(true);
         }
-        if (timeout) {
-            logger.error("Shutdown timed out. {} screenshots not sent.", remaining);
+        if (timeout.get()) {
+            logger.error("Shutdown timed out. {} screenshots not sent.", totalRemainingJobs.get());
         } else {
             logger.info("Finished processing backlog.");
         }
