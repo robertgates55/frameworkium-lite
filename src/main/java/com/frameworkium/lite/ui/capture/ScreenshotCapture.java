@@ -29,7 +29,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Takes and sends screenshots to "Capture" asynchronously. */
@@ -55,7 +54,7 @@ public class ScreenshotCapture {
     private static final List<ExecutorService> sendScreenshotExecutors = new ArrayList<>();
 
     static {
-        for (int i = 0; i < CAPTURE_THREADS.getIntWithDefault(3); i++) {
+        for (int i = 0; i < CAPTURE_THREADS.getIntWithDefault(4); i++) {
             sendScreenshotExecutors.add(Executors.newSingleThreadExecutor());
         }
     }
@@ -229,15 +228,13 @@ public class ScreenshotCapture {
         }
 
         logger.info("Processing remaining Screenshot Capture backlog...");
-        var timeout = new AtomicBoolean(false);
         var totalRemainingJobs = new AtomicInteger(0);
         var terminationFutures = sendScreenshotExecutors.stream()
                 .map(executor -> CompletableFuture.runAsync(() -> {
                     try {
-                        if (executor.awaitTermination(2, TimeUnit.MINUTES)) {
-                            timeout.set(true);
+                        if (!executor.awaitTermination(2, TimeUnit.MINUTES)) {
+                            totalRemainingJobs.addAndGet(executor.shutdownNow().size());
                         }
-                        totalRemainingJobs.addAndGet(executor.shutdownNow().size());
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         throw new RuntimeException(e);
@@ -251,9 +248,8 @@ public class ScreenshotCapture {
                     .get(3, TimeUnit.MINUTES);
         } catch (Exception e) {
             logger.error("CompletableFuture timed out.");
-            timeout.set(true);
         }
-        if (timeout.get()) {
+        if (totalRemainingJobs.get() > 0) {
             logger.error("Shutdown timed out. {} screenshots not sent.", totalRemainingJobs.get());
         } else {
             logger.info("Finished processing backlog.");
