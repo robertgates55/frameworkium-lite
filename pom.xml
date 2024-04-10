@@ -63,11 +63,6 @@
 
     <!-- Test related -->
     <dependency>
-      <!--
-      Need to use IntelliJ 2020.3 or later, see:
-      https://stackoverflow.com/questions/57299606/testng-by-default-disables-loading-dtd-from-unsecure-urls
-      https://youtrack.jetbrains.com/issue/IDEA-234765
-      -->
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>7.10.1</version>
@@ -77,14 +72,6 @@
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.25.3</version>
-    </dependency>
-
-    <!-- Used in some parts of the code and is the latest version
-         rather than rely on an older version from Selenium. -->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>33.1.0-jre</version>
     </dependency>
 
     <!-- Logging related -->
