@@ -48,9 +48,9 @@ public class ScreenshotListener extends TestListenerAdapter {
         Path absolutePath = screenshotPath.resolve(fileName);
         if (createScreenshotDirectory(screenshotPath)) {
             writeScreenshotToFile(driver, absolutePath);
-            logger.info("Written screenshot to " + absolutePath);
+            logger.info("Written screenshot to {}", absolutePath);
         } else {
-            logger.error("Unable to create " + screenshotPath);
+            logger.error("Unable to create {}", screenshotPath);
         }
     }
 
@@ -68,7 +68,7 @@ public class ScreenshotListener extends TestListenerAdapter {
             byte[] bytes = driver.getScreenshotAs(OutputType.BYTES);
             screenshotStream.write(bytes);
         } catch (IOException e) {
-            logger.error("Unable to write " + screenshot, e);
+            logger.error("Unable to write {}", screenshot, e);
         } catch (WebDriverException e) {
             logger.error("Unable to take screenshot.", e);
         }

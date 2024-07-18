@@ -11,9 +11,10 @@ import java.util.List;
 /**
  * Tests to ensure elements other than just WebElements can be passed into
  * {@link ExtraExpectedConditions}.
- *
+ * <p>
  * These tests do not check the correctness of the implementation, they are here
- * to prevent https://github.com/Frameworkium/frameworkium-core/issues/133
+ * to prevent
+ * <a href="https://github.com/Frameworkium/frameworkium-core/issues/133">this issue</a>
  */
 public class ExtraExpectedConditionsTest {
 

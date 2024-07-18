@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 /**
  * Simple test of the HTML5 Drag and Drop functionality.
  * <p>
- * Not currently natively supported by Selenium, see:
- * https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3604
+ * <a href="https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3604">
+ * Not currently natively supported by Selenium
+ * </a>
  */
 public class DragAndDropPage extends BasePage<DragAndDropPage> {
 
@@ -61,7 +62,7 @@ public class DragAndDropPage extends BasePage<DragAndDropPage> {
 
     /**
      * @param from the jQuery selector for the element to initially click and then drag
-     * @param to   the jQuery selector for the target element where the from element will be dropped
+     * @param to   the jQuery selector for the target element where the "from" element will be dropped
      */
     private void simulateDragAndDrop(String from, String to) {
         executeJS(scriptToSimulateDragDrop());

@@ -15,7 +15,7 @@ import java.util.List;
  * <pre class="code">
  * &#64;FindBy(css = "form_css")
  * public class SearchForm extends HtmlElement {
- *
+ * <p/>
  *   &#64;FindBy(css = "request_input_css")
  *   private TextInput requestInput;
  * <p/>
@@ -32,13 +32,12 @@ import java.util.List;
  * }
  * </pre>
  * <p/>
- * Then you can use created blocks as fields of page objects or you can also
+ * Then you can use created blocks as fields of page objects, or you can
  * initialize them directly with methods of
  * {@link com.frameworkium.lite.htmlelements.loader.HtmlElementLoader} class.
  * <p/>
- * Note that this class implements {@link WebElement} interface so you can
- * substitute instances of your block classes for
- * {@code WebElements} where necessary.
+ * Note that this class implements {@link WebElement} interface, so you can
+ * substitute instances of your block classes for {@code WebElements}.
  */
 public class HtmlElement implements WebElement, WrapsElement {
     private WebElement wrappedElement;

@@ -5,6 +5,7 @@ import com.frameworkium.lite.api.services.BaseService;
 
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -36,7 +37,7 @@ public abstract class AbstractBookerService extends BaseService {
         return RestAssured.expect().response().statusCode(HttpStatus.SC_OK);
     }
 
-    protected ExtractableResponse post(Object body, String url) {
+    protected ExtractableResponse<Response> post(Object body, String url) {
         return getRequestSpec()
                 .body(body)
                 .when()

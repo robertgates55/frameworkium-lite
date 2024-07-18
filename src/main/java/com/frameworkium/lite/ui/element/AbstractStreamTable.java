@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * interface, i.e. {@link Stream} and {@link Optional}, to HTML tables.
  *
  * <p>The header cells, rows and locator for cells inside the rows are
- * supplied by the sub-classes.
+ * supplied by the subclasses.
  *
  * <p>Each {@link Stream} is lazy, therefore, unlike other Table implementations,
  * the entire table does not have to be read each time, only the minimal amount
@@ -237,7 +237,6 @@ public abstract class AbstractStreamTable extends HtmlElement {
                 .filter(Objects::nonNull);
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     protected long getHeaderIndex(Predicate<WebElement> headerPredicate) {
         return Streams.mapWithIndex(
                         getHeadings(),

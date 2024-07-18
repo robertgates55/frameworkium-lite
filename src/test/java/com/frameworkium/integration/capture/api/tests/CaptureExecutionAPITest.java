@@ -25,8 +25,8 @@ public class CaptureExecutionAPITest extends BaseAPITest {
     private String executionID;
 
     /**
-     * Using {@link BeforeClass} to ensure anything like:
-     * https://github.com/cbeust/testng/issues/1660
+     * Using {@link BeforeClass} to ensure anything like
+     * <a href="https://github.com/cbeust/testng/issues/1660">this issue</a>
      * gets caught before we release.
      * This, with threads, is a common pattern.
      */
