@@ -221,8 +221,10 @@ public class ScreenshotCapture {
      */
     public static void processRemainingBacklog() {
 
+        logger.info("RGRGRGRGRGRGRGRG - FOREACH shutdown")
         sendScreenshotExecutors.forEach(ExecutorService::shutdown);
 
+        logger.info("RGRGRGRGRGRG - is required?")
         if (!isRequired()) {
             return;
         }
