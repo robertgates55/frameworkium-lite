@@ -25,6 +25,7 @@ import java.util.Optional;
  */
 public class UITestLifecycle {
 
+    private static final Logger logger = LogManager.getLogger();
     private static final Duration DEFAULT_TIMEOUT = Duration.of(10, SECONDS);
 
     private static final ThreadLocal<UITestLifecycle> THREAD_LOCAL_INSTANCE =
@@ -108,8 +109,11 @@ public class UITestLifecycle {
      * clear down the browser pool and send remaining screenshots to Capture.
      */
     public void afterTestSuite() {
+        logger.info("RGRGRGRGRGRGRGRGRGRG - Tearing down driver pool")
         driverLifecycle.tearDownDriverPool();
+        logger.info("RGRGRGRGRGRGRGRGRGRG - Process remaining backlog")
         ScreenshotCapture.processRemainingBacklog();
+        logger.info("RGRGRGRGRGRGRGRGRGRG - THREADLOCALINSTANCE remove")
         THREAD_LOCAL_INSTANCE.remove();
     }
 
