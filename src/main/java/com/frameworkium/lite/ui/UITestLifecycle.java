@@ -25,7 +25,6 @@ import java.util.Optional;
  */
 public class UITestLifecycle {
 
-    private static final Logger logger = LogManager.getLogger();
     private static final Duration DEFAULT_TIMEOUT = Duration.of(10, SECONDS);
 
     private static final ThreadLocal<UITestLifecycle> THREAD_LOCAL_INSTANCE =
