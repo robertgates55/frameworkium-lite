@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.ham1</groupId>
+  <groupId>com.github.robertgates55</groupId>
   <artifactId>frameworkium-lite</artifactId>
   <version>4.9.8-SNAPSHOT</version>
   <name>frameworkium-lite</name>
@@ -18,17 +18,17 @@
   <modules />
 
   <scm>
-    <connection>scm:git:git@github.com:ham1/frameworkium-lite</connection>
-    <url>scm:git:git@github.com:ham1/frameworkium-lite</url>
-    <developerConnection>scm:git:git@github.com:ham1/frameworkium-lite</developerConnection>
+    <connection>scm:git:git@github.com:robertgates55/frameworkium-lite</connection>
+    <url>scm:git:git@github.com:robertgates55/frameworkium-lite</url>
+    <developerConnection>scm:git:git@github.com:robertgates55/frameworkium-lite</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>github issues</system>
-    <url>https://github.com/ham1/frameworkium-lite/issues</url>
+    <url>https://github.com/robertgates55/frameworkium-lite/issues</url>
   </issueManagement>
   <ciManagement>
-    <url>https://github.com/ham1/frameworkium-lite/actions</url>
+    <url>https://github.com/robertgates55/frameworkium-lite/actions</url>
   </ciManagement>
 
   <distributionManagement />
@@ -41,8 +41,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- default skip.surefire.tests to the value of skipTests -->
     <skip.surefire.tests>${skipTests}</skip.surefire.tests>
-    <sonar.projectKey>ham1_frameworkium-lite</sonar.projectKey>
-    <sonar.organization>ham1</sonar.organization>
+    <sonar.projectKey>robertgates55_frameworkium-lite</sonar.projectKey>
+    <sonar.organization>robertgates55</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
