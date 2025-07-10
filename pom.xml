@@ -3,7 +3,7 @@
 
   <groupId>com.github.robertgates55</groupId>
   <artifactId>frameworkium-lite</artifactId>
-  <version>4.9.9-SNAPSHOT</version>
+  <version>4.9.9</version>
   <name>frameworkium-lite</name>
   <description>
     A UI and API Test framework, based upon Frameworkium Core.
